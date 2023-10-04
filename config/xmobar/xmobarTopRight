@@ -1,0 +1,58 @@
+Config {
+
+   -- appearance
+   position = TopSize R 40 20,
+   font = "Iosevka Term Slab 11"
+   , additionalFonts = [ "Hack Nerd Font 13"
+                       , "Font Awesome 6 Free Solid 10"
+                       , "Awesome Font 5 Free Light 12"
+                       , "Font Awesome 5 Brands 11"
+                       , "Noto Color Emoji 10"
+                       ]
+   , border =       NoBorder
+   -- layout
+   , alpha = 0
+   , sepChar =  "%"   -- delineator between plugin names and straight text
+   , template = " %multicpu% %sep%\
+                \ %memory% %sep%\
+                \ %disku% %sep%\
+                \ %myBattery% %sep%\
+                \ %_XMONAD_LOG_LIGHT% %sep%\
+                \ %_XMONAD_LOG_SOUND% %sep%\
+                \ %dynnetwork% %sep%\
+                \ %date% %sep%"
+
+   -- general behavior
+   , lowerOnStart =     True    -- send to bottom of window stack on start
+   , hideOnStart =      False   -- start with window unmapped (hidden)
+   , allDesktops =      True    -- show on all desktops
+   , overrideRedirect = True    -- set the Override Redirect flag (Xlib)
+   , pickBroadest =     True   -- choose widest display (multi-monitor)
+   , persistent =       True    -- enable/disable hiding (True = disabled)
+   , commands =
+        [ Run XPropertyLog "_XMONAD_LOG_LIGHT"
+        , Run XPropertyLog "_XMONAD_LOG_SOUND"
+        , Run Com "echo" ["<fc=#928374><fn=2>\xf053</fn></fc>"] "sep" 100000
+        , Run ComX "bash" ["-c", "$DOTFILES_BIN/xmonad/battery"] "BAT: X" "myBattery" 100
+        , Run ComX "bash" ["-c", "$DOTFILES_BIN/xmonad/connection"] "CON: X" "myCon" 10
+        , Run Date           "<fn=1>\xf0e17 </fn>%T %d-%m" "date" 10
+        , Run DynNetwork     [ "--template" , "<tx> <fn=2>\xf062\xf063</fn><rx>"
+                             , "-p"         , "3"
+                             , "-m"         , "7"
+                             , "-M"         , "7"
+                             , "-S"         , "True"
+                             ] 10
+        , Run MultiCpu       [ "--template" , "<fn=2>\xf2db </fn><total>"
+                             , "-S"         , "True"
+                             , "-p"         , "3"
+                             ] 10
+        , Run Memory         [ "--template" , "<fn=2>\xf538 </fn><usedratio>"
+                             , "-S"         , "True"
+                             , "-p"         , "3"
+                             ] 10
+        , Run DiskU          [("/", "<fn=2>\xf1c0</fn><usedp>")]
+                             [ "-S", "True"
+                             , "-p", "3"
+                             ] 20
+        ]
+   }

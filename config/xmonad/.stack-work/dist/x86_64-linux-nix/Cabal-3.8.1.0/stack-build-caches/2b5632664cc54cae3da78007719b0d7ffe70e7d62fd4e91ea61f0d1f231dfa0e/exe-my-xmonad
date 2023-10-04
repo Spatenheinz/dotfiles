@@ -1,0 +1,22 @@
+/home/jacob/dotfiles/config/xmonad/.stack-work/dist/x86_64-linux-nix/Cabal-3.8.1.0/build/my-xmonad/autogen/Paths_my_xmonad.hs:
+  hash: 8ca1fec7fc02545a569ceda656fee6fed62fdadcd839fa43301dc7514ddcf262
+/home/jacob/dotfiles/config/xmonad/lib/Bars.hs:
+  hash: 19e18beb792496a281fd58d5bb8c05fb742a8d0aa279807ca96790ec5b5d38aa
+/home/jacob/dotfiles/config/xmonad/lib/Keybindings.hs:
+  hash: 5f353262f4bd4cf350d645576986803f8fa553819e68f45cf8d82bb0bc0e92d2
+/home/jacob/dotfiles/config/xmonad/lib/Layout.hs:
+  hash: cbd63599be941e8490533666a3b6cb69235fa75a9d667f5ce76f882c9ed122ed
+/home/jacob/dotfiles/config/xmonad/lib/Prompts.hs:
+  hash: 69ba3c54c3aaf602d2165890f9ddf8de3b030e566b1c49ae57ccf52fcaee2d3d
+/home/jacob/dotfiles/config/xmonad/lib/Scratchpads.hs:
+  hash: c6e2c9b1866565b6d1a5475879bdab5e0b771b293fcc48a9900966401feb46d6
+/home/jacob/dotfiles/config/xmonad/lib/SystemVar.hs:
+  hash: f61808349211dcb3d713f7b2c5f36ecb0179ea90535cb57f35d18c43fe6b7a3d
+/home/jacob/dotfiles/config/xmonad/lib/Theme.hs:
+  hash: 59e46eb83159c0ad902bc1c35c21ee96706ff304a9890ffad07c6ec7905f53f8
+/home/jacob/dotfiles/config/xmonad/my-xmonad.cabal:
+  hash: 7fe5a8979937b426a4739decb96efd18eac85df5b5a5058ded3acfaa15462ac9
+/home/jacob/dotfiles/config/xmonad/package.yaml:
+  hash: 3c435429eb1616635e94cc5b1c7c8bb48a06fb6b707e7b44eb763a6b39b52bb4
+/home/jacob/dotfiles/config/xmonad/xmonad.hs:
+  hash: c71be913698889de96fe3841026a5f8a47c37ab2e29bc787ae026e1918b88408

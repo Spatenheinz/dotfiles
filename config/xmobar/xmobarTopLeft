@@ -1,0 +1,22 @@
+Config {
+   position = TopSize L 20 20,
+   font = "Iosevka 11"
+   , additionalFonts = [ "Hack Nerd Font 8"
+                       , "Font Awesome 5 Free Solid 12"
+                       , "Font Awesome 5 Brands 11"
+                       , "Noto Color Emoji 10"
+                       , "Source Code Pro 10"
+                       ]
+   , alpha = 0
+   , template = " %_XMONAD_LOG_TOP_LEFT% "
+   , lowerOnStart =     True
+   , hideOnStart =      False
+   , allDesktops =      True
+   , overrideRedirect = True
+   , pickBroadest =     True
+   , persistent =       True
+
+   , commands =
+        [ Run UnsafeXPropertyLog "_XMONAD_LOG_TOP_LEFT"
+        ]
+   }

@@ -1,0 +1,15 @@
+#!/usr/bin/env cached-nix-shell
+#! nix-shell -p playerctl -i bash
+set -xe
+pipe=/tmp/spotify-pipe
+running=$(pidof .spotify-wrapped)
+if [ -n "$running" ]; then
+    artist=$(playerctl -p spotify metadata artist)
+    song=$(playerctl -p spotify metadata title | cut -c 1-60)
+    if [[ ! -p $pipe ]]; then
+        mkfifo $pipe
+    fi
+    echo "$artist · $song" > $pipe
+else
+    echo  ""
+fi

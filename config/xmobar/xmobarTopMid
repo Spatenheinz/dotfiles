@@ -1,0 +1,25 @@
+Config {
+   position = TopSize C 12 20
+   , font = "Iosevka 11"
+   , additionalFonts = [ "Hack Nerd Font 8"
+                       , "Font Awesome 6 Free Solid 12"
+                       , "Font Awesome 6 Brands 11"
+                       , "Noto Color Emoji 10"
+                       , "Source Code Pro 10"
+                       ]
+   , border =       NoBorder
+   , template = "%spot% }%mpipe%{"
+   , alpha = 0
+   -- general behavior
+   , lowerOnStart =     True
+   , hideOnStart =      False
+   , allDesktops =      True
+   , overrideRedirect = True
+   , pickBroadest =     True
+   , persistent =       True
+
+   , commands =
+        [ Run MarqueePipeReader " :/tmp/spotify-pipe" (30, 7, "/") "mpipe"
+        , Run Com "echo" ["<fn=3>\xf1bc</fn>"] "spot" 100000
+        ]
+   }

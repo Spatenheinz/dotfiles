@@ -1,0 +1,60 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.35.2.
+--
+-- see: https://github.com/sol/hpack
+
+name:           my-xmonad
+version:        0.1.0.0
+synopsis:       My highly configured Xmonad
+description:    See README
+category:       Development
+maintainer:     Jacob Herbst <jacob@1362.dk>
+license:        BSD3
+build-type:     Simple
+
+library
+  exposed-modules:
+      Keybindings
+  other-modules:
+      Bars
+      Layout
+      Prompts
+      Scratchpads
+      SystemVar
+      Theme
+      Paths_my_xmonad
+  hs-source-dirs:
+      lib
+      ./
+  ghc-options: -Wall
+  build-depends:
+      base
+    , containers
+    , unix >=2.7.2.2
+    , xmonad >=0.17
+    , xmonad-contrib >=0.17
+  default-language: Haskell2010
+
+executable my-xmonad
+  main-is: xmonad.hs
+  other-modules:
+      Bars
+      Keybindings
+      Layout
+      Prompts
+      Scratchpads
+      SystemVar
+      Theme
+      Paths_my_xmonad
+  hs-source-dirs:
+      lib
+      ./
+  ghc-options: -Wall
+  build-depends:
+      base
+    , containers
+    , unix >=2.7.2.2
+    , xmonad >=0.17
+    , xmonad-contrib >=0.17
+  default-language: Haskell2010

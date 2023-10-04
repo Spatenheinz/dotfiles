@@ -1,0 +1,26 @@
+#!/usr/bin/env cached-nix-shell
+#! nix-shell -p brightnessctl bc -i bash
+
+help () {
+    echo "usage: $0 <amount> <up|down> <XProperty>"; exit
+}
+
+BACKLIGHT_INTERFACE=intel_backlight
+xprop_icon=$(echo -e "<fn=2>\Uf00df</fn>")
+if [ $# -eq 3 ]; then
+    case $2 in
+       "up")   do="+$1%" ;;
+       "down") do="$1%-" ;;
+       *)      help ;;
+    esac
+else
+    help
+fi
+brightnessctl s $do > /dev/null
+
+current=$(cat /sys/class/backlight/$BACKLIGHT_INTERFACE/brightness)
+max=$(cat /sys/class/backlight/$BACKLIGHT_INTERFACE/max_brightness)
+percent=$(echo "$current * 100 / $max" | bc -l | cut -d '.' -f 1)
+
+xprop -root -format "$3" 8u -set "$3" "$(printf %s%4s%% $xprop_icon $percent)"
+notify-send -h int:value:$percent "Screen Brightness"

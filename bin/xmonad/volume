@@ -1,0 +1,58 @@
+#!/usr/bin/env cached-nix-shell
+#! nix-shell -p pamixer xorg.xprop -i bash
+
+set -e
+EXPECTED_ARGS=3
+E_BADARGS=65
+USECASE="Usage: $(basename "$0") [step] [up|down|toggle] [XProperty]"
+
+if [ $# -ne $EXPECTED_ARGS ]
+then
+    echo $USECASE
+    exit $E_BADARGS
+fi
+
+STEP=$1
+
+up(){
+    pamixer -ui $STEP --allow-boost > /dev/null
+}
+
+down(){
+    pamixer -ud $STEP --allow-boost > /dev/null
+}
+
+toggle(){
+    pamixer --toggle-mute > /dev/null
+}
+
+case $2 in
+    up)     up;;
+    down)   down;;
+    toggle) toggle;;
+    *)      echo $USECASE; exit 1;;
+esac
+
+MUTED=$(pamixer --get-mute)
+if [ $MUTED == "false" ]
+then
+    VOLPERC=$(pamixer --get-volume)
+else
+    VOLPERC=0
+fi
+
+if [ "$VOLPERC" = "0" ]; then
+   icon_name="notification-audio-volume-off.svg"
+   xprop_icon="$(echo -e "<fn=2>\Uf6a9</fn>")"
+elif [ "$VOLPERC" -lt "33" ]; then
+   icon_name="notification-audio-volume-low.svg"
+elif [ "$VOLPERC" -lt "67" ]; then
+   icon_name="notification-audio-volume-medium.svg"
+else
+   icon_name="notification-audio-volume-high.svg"
+fi
+
+[ -z "$xprop_icon" ] && xprop_icon="$(echo -e "<fn=2>\Uf028</fn>")"
+
+xprop -root -format "$3" 8u -set "$3" "$xprop_icon$(printf %4s%% $VOLPERC)"
+dunstify -a "changevolume" -u low -r 1337 -i $icon_name -h int:value:$VOLPERC "Volume: $VOLPERC%" -t 2000

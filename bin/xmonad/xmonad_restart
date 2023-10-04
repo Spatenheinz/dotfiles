@@ -1,0 +1,8 @@
+#!/usr/bin/env cached-nix-shell
+#! nix-shell -p dunst -i bash
+
+xmonad --recompile &&
+notify-send "XMONAD" "compiled" &&
+xmonad --restart &&
+notify-send "XMONAD" "restarted"
+

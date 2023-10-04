@@ -1,0 +1,10 @@
+#!/usr/bin/env cached-nix-shell
+#! nix-shell -p pamixer -i bash
+
+MUTED=$(pamixer --get-mute)
+if [ $MUTED == "false" ]
+then
+    printf "<fn=2>\Uf028</fn>%4s%%" "$(pamixer --get-volume)"
+else
+    printf "<fn=2>\Uf6a9</fn>%4s" ""
+fi

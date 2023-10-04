@@ -1,0 +1,23 @@
+resolver: lts-21.11
+
+packages:
+- .
+
+extra-deps: []
+
+nix:
+  enable: true
+  pure: false
+  packages:
+    - gcc
+    - cairo
+    - gtk3-x11
+    - pkgconfig
+    - xorg.libX11
+    - xorg.libXft
+    - xorg.libXScrnSaver
+    - xorg.libXext
+    - xorg.libXinerama
+    - xorg.libXrandr
+    - xorg.libXrender
+    - xorg.libXdmcp

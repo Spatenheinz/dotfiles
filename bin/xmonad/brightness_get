@@ -1,0 +1,8 @@
+#!/usr/bin/env cached-nix-shell
+#! nix-shell -p brightnessctl bc -i bash
+
+BACKLIGHT_INTERFACE=intel_backlight
+current=$(cat /sys/class/backlight/$BACKLIGHT_INTERFACE/brightness)
+max=$(cat /sys/class/backlight/$BACKLIGHT_INTERFACE/max_brightness)
+percent=$(echo "$current * 100 / $max" | bc -l | cut -d '.' -f 1)
+printf "<fn=1>\Uf00df</fn>%4s%%" "$percent"
