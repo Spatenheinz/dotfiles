@@ -42,7 +42,8 @@ myKeys c = concat
     mkNamedKeymap' = mkNamedKeymap c
     xmonadkeys = mkNamedKeymap'
                   [ ("M-S-r", addName "Recompile xmonad & restart server" $ spawn $ xmonadBin <> "xmonad_restart")
-                  , ("M-<Escape>", addName "Quit Xmonad" $ io exitSuccess)
+                  , ("M-<Escape>", addName "Manage session" $ spawn $ rofiBin <> "session")
+                  -- , ("M-<Escape>", addName "Quit Xmonad" $ io exitSuccess)
                   ]
     tps        = mkNamedKeymap'
                   [ ("M-<Return>",   addName "Terminal" $ spawn myTerminal)
@@ -56,6 +57,7 @@ myKeys c = concat
                   [ ("M-S-q", addName "kill 1" $ kill1)
                   , ("M-S-a", addName "Kill all" $ killAll)
                   , ("M-r", addName "Modal resize" $ setMode "Resize")
+                  , ("M-S-w", addName "Window prompt" $ spawn "rofi -show window")
                   ]
     nav        = mkNamedKeymap'
                   [ ("M-m",           addName "Focus master"    $ windows W.focusMaster)

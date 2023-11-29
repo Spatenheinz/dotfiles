@@ -69,8 +69,7 @@
         full = {
           path = ./.;
           description = "A grossly incandescent nixos config";
-        };
-      } // import ./templates;
+        }; } // import ./templates;
       defaultTemplate = self.templates.full;
 
       defaultApp."${system}" = {

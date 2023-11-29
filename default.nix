@@ -5,7 +5,9 @@ with lib.my;
 {
   imports =
     # I use home-manager to deploy files to $HOME; little else
-    [ inputs.home-manager.nixosModules.home-manager ]
+    [ inputs.home-manager.nixosModules.home-manager
+
+    ]
     # All my personal modules
     ++ (mapModulesRec' (toString ./modules) import);
 
@@ -60,6 +62,10 @@ with lib.my;
     cached-nix-shell
     git
     ripgrep
+    fd
+    exa
+    bat
+    entr
     vim
     wget
     gnumake

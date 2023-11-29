@@ -1,7 +1,8 @@
 module SystemVar where
 import XMonad
 
-xmonadBin, propLight, propSound, propLeft :: String
+rofiBin, xmonadBin, propLight, propSound, propLeft :: String
+rofiBin = "$DOTFILES_BIN/rofi/"
 xmonadBin = "$DOTFILES_BIN/xmonad/"
 propLight = "_XMONAD_LOG_LIGHT"
 propSound = "_XMONAD_LOG_SOUND"

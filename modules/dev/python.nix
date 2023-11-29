@@ -20,6 +20,17 @@ in {
     (mkIf cfg.enable {
       user.packages = with pkgs; [
         python311
+        python311Packages.mypy
+        python311Packages.flake8
+        python311Packages.pylint
+	#(mkIf config.modules.editors.emacs.enable
+        #emacsPackages.lsp-pyright)
+        python311Packages.pylsp-mypy
+        python311Packages.pyls-isort
+        python311Packages.pyls-flake8
+        python311Packages.black
+        python311Packages.python-lsp-black
+        python311Packages.python-lsp-server
       ];
 
       # environment.shellAliases = {

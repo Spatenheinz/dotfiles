@@ -38,10 +38,6 @@ myManageHook =
 myStartupHook :: X ()
 myStartupHook = do
   spawnOnce $ xmonadBin <> "spotify"
-  spawnOnce "/usr/bin/emacs --daemon &"
-  spawnOnce "picom --config .xmonad/picom.conf &"
-  -- spawnOnce "feh --bg-fill ~/.xmonad/mountain.png"
-  spawnOnce "dunst -conf ~/.xmonad/bin/dunstrc &"
   spawnOnce "setxkbmap -layout us,dk -option grp:rwin_toggle -option ctrl:nocaps"
   setWMName "LG3D"
 
@@ -68,6 +64,6 @@ main = do
           manageHook = myManageHook <+> manageDocks,
           -- handleEventHook = fullscreenEventHook,
           startupHook = myStartupHook,
-          layoutHook =  myLayoutHook, -- The layouts
+          layoutHook =  myLayoutHook,
           logHook = return ()
           }

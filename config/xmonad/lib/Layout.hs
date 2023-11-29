@@ -6,6 +6,7 @@ import XMonad
 -- Layouts modifiers
 import XMonad.Layout.LayoutModifier
 import XMonad.Layout.Decoration
+import XMonad.Layout.SimpleDecoration
 import XMonad.Layout.NoFrillsDecoration
 
 import XMonad.Layout.BinarySpacePartition
@@ -38,10 +39,10 @@ topBarTheme = def
   , inactiveTextColor   = fg
   , activeBorderColor   = Theme.border
   , activeColor         = yellow
-  , activeTextColor     = yellow
+  , activeTextColor     = bg
   , urgentBorderColor   = warning
   , urgentTextColor     = warning
-  , decoHeight          = 3
+  , decoHeight          = 10
   }
 
 myTabTheme :: Theme
@@ -109,5 +110,5 @@ myLayoutHook =
                        ||| fib
                        ||| Circle
                        ||| Grid
-     bsp     = renamed [Replace "bsp"] $ emptyBSP
-     fib     = renamed [Replace "spiral"] $ tabs $ LD.Spiral LD.R  LD.CW 1.2 0.8
+     bsp     = renamed [Replace "bsp"] emptyBSP
+     fib     = renamed [Replace "spiral"] $ LD.Spiral LD.R  LD.CW 1.2 0.8

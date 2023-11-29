@@ -20,28 +20,31 @@ in {
       haskellPackages.xmobar
 
       nethogs
+      libinput
     ];
 
     services = {
-      picom.enable = true;
-      redshift.enable = true;
+      # picom.enable = true;
+      # redshift.enable = true;
       xserver = {
         enable = true;
         displayManager = {
           defaultSession = "none+xmonad";
           lightdm.enable = true;
-          lightdm.greeters.mini.enable = true;
+          lightdm.greeters.pantheon.enable = true;
+          # lightdm.greeters.mini.enable = true;
         };
         windowManager.xmonad = {
 	        enable = true;
 	        enableContribAndExtras = true;
 	      };
-
+        # desktopManager.xfce.enable = true;
         # TODO: should be moved somewhere else
-   	    libinput = {
+   	 libinput = {
 	        enable = true;
 	        touchpad = {
 	          naturalScrolling = true;
+            tapping = true;
 	        };
 	      };
         layout = "us,dk";
