@@ -1,5 +1,4 @@
-#!/usr/bin/env cached-nix-shell
-#! nix-shell -p pamixer -i bash
+#!/usr/bin/env bash
 
 MUTED=$(pamixer --get-mute)
 if [ $MUTED == "false" ]

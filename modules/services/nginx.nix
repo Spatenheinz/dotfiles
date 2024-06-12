@@ -7,7 +7,6 @@ let cfg = config.modules.services.nginx;
 in {
   options.modules.services.nginx = {
     enable = mkBoolOpt false;
-    enableCloudflareSupport = mkBoolOpt false;
   };
 
   config = mkMerge [
@@ -47,28 +46,5 @@ in {
       };
     })
 
-    (mkIf cfg.enableCloudflareSupport {
-      services.nginx.commonHttpConfig = ''
-        ${concatMapStrings (ip: "set_real_ip_from ${ip};\n")
-          (filter (line: line != "")
-            (splitString "\n" ''
-              ${readFile (fetchurl "https://www.cloudflare.com/ips-v4/")}
-              ${readFile (fetchurl "https://www.cloudflare.com/ips-v6/")}
-            ''))}
-        real_ip_header CF-Connecting-IP;
-      '';
-    })
   ];
 }
-
-# Helpful nginx snippets
-#
-# Set expires headers for static files and turn off logging.
-#   location ~* ^.+\.(js|css|swf|xml|txt|ogg|ogv|svg|svgz|eot|otf|woff|mp4|ttf|r ss|atom|jpg|jpeg|gif|png|ico|zip|tgz|gz|rar|bz2|doc|xls|exe|ppt|tar|mid|midi|wav |bmp|rtf)$ {
-#     access_log off; log_not_found off; expires 30d;
-#   }
-#
-# Deny all attempts to access PHP Files in the uploads directory
-#   location ~* /(?:uploads|files)/.*\.php$ {
-#     deny all;
-#   }

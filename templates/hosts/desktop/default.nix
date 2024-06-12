@@ -8,14 +8,12 @@
   ## Modules
   modules = {
     desktop = {
-      bspwm.enable = true;
+      xmonad.enable = true;
       apps = {
         rofi.enable = true;
-        # godot.enable = true;
       };
       browsers = {
-        default = "brave";
-        brave.enable = true;
+        default = "firefox";
         firefox.enable = true;
         qutebrowser.enable = true;
       };
@@ -33,7 +31,7 @@
         spotify.enable = true;
       };
       term = {
-        default = "xst";
+        default = "kitty";
         st.enable = true;
       };
       vm = {
@@ -62,8 +60,6 @@
     services = {
       ssh.enable = true;
       docker.enable = true;
-      # Needed occasionally to help the parental units with PC problems
-      # teamviewer.enable = true;
     };
     theme.active = "alucard";
   };
@@ -74,4 +70,20 @@
   services.openssh.startWhenNeeded = true;
 
   networking.networkmanager.enable = true;
+
+  hardware = {
+      audio.enable = true;
+      bluetooth.enable = true;
+      nvidia.enable = true;
+  };
+
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 21d";
+  };
+
+  security.sudo.extraConfig = ''
+    Defaults        timestamp_timeout=30
+  '';
 }

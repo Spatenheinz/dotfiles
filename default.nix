@@ -6,7 +6,6 @@ with lib.my;
   imports =
     # I use home-manager to deploy files to $HOME; little else
     [ inputs.home-manager.nixosModules.home-manager
-
     ]
     # All my personal modules
     ++ (mapModulesRec' (toString ./modules) import);
@@ -41,20 +40,22 @@ with lib.my;
       };
     };
   system.configurationRevision = with inputs; mkIf (self ? rev) self.rev;
-  system.stateVersion = "23.05";
+  system.stateVersion = "24.05";
 
   fileSystems."/".device = mkDefault "/dev/disk/by-label/nixos";
   networking.useDHCP = mkDefault false;
 
   # Use the latest kernel
   boot = {
-    kernelPackages = mkDefault pkgs.linuxKernel.packages.linux_6_4;
+    kernelPackages = mkDefault pkgs.linuxKernel.packages.linux_6_6;
     loader = {
       efi.canTouchEfiVariables = mkDefault true;
       systemd-boot.configurationLimit = 10;
       systemd-boot.enable = mkDefault true;
     };
   };
+
+  programs.command-not-found.enable = mkDefault true;
 
   # Just the bear necessities...
   environment.systemPackages = with pkgs; [
@@ -63,13 +64,16 @@ with lib.my;
     git
     ripgrep
     fd
-    exa
+    eza
     bat
     entr
+    fzf
     vim
     wget
     gnumake
     unzip
     zip
+    just
+    tldr
   ];
 }

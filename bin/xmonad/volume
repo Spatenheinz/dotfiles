@@ -1,5 +1,4 @@
-#!/usr/bin/env cached-nix-shell
-#! nix-shell -p pamixer xorg.xprop -i bash
+#!/usr/bin/env bash
 
 set -e
 EXPECTED_ARGS=3

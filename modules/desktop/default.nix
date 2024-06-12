@@ -28,6 +28,9 @@ in {
       xclip
       xdotool
       xorg.xwininfo
+      gtk4
+      gtk3
+      xpra
       # scripts
       xorg.xkill
       killall
@@ -51,7 +54,9 @@ in {
     };
 
     ## Apps/Services
-    services.xserver.displayManager.lightdm.greeters.mini.user = config.user.name;
+    services.xserver.displayManager = {
+      lightdm.greeters.mini.user = config.user.name;
+    };
 
     services.picom = {
       backend = "glx";

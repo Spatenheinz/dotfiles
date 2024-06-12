@@ -31,6 +31,8 @@ in {
         python311Packages.black
         python311Packages.python-lsp-black
         python311Packages.python-lsp-server
+
+      python311Packages.pygments
       ];
 
       # environment.shellAliases = {

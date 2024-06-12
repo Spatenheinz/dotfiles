@@ -21,36 +21,51 @@ in {
 
       nethogs
       libinput
+      # scripts
+      xorg.xprop
+      pamixer
+      gawk
+      ripgrep
+      networkmanager
+      brightnessctl
+      bc
+      playerctl
     ];
 
     services = {
-      # picom.enable = true;
-      # redshift.enable = true;
+      picom.enable = true;
+      redshift.enable = true;
+
+      displayManager = {
+        defaultSession = "none+xmonad";
+      };
+
       xserver = {
         enable = true;
         displayManager = {
-          defaultSession = "none+xmonad";
           lightdm.enable = true;
-          lightdm.greeters.pantheon.enable = true;
-          # lightdm.greeters.mini.enable = true;
+          lightdm.greeters.slick.enable = true;
         };
         windowManager.xmonad = {
 	        enable = true;
 	        enableContribAndExtras = true;
 	      };
-        # desktopManager.xfce.enable = true;
-        # TODO: should be moved somewhere else
-   	 libinput = {
+        desktopManager.xfce.enable = true;
+
+        xkb = {
+          layout = "us,dk";
+	        options = "grp:rwin_switch,caps:escape";
+	        model = "pc105";
+        };
+      };
+
+       libinput = {
 	        enable = true;
 	        touchpad = {
 	          naturalScrolling = true;
-            tapping = true;
+            # tapping = true;
 	        };
 	      };
-        layout = "us,dk";
-	      xkbOptions = "grp:rwin_switch, caps:escape";
-	      xkbModel = "pc105";
-      };
     };
 
     systemd.user.services."dunst" = {

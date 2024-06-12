@@ -1,5 +1,4 @@
-#!/usr/bin/env cached-nix-shell
-#! nix-shell -p networkmanager ripgrep gawk -i bash
+#!/usr/bin/env bash
 
 STATUS=$(nmcli device status)
 ETH=$(echo "$STATUS" | rg "^enp0s31f6" | awk '{ print $3 }')

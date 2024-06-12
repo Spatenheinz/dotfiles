@@ -38,7 +38,7 @@ myManageHook =
 myStartupHook :: X ()
 myStartupHook = do
   spawnOnce $ xmonadBin <> "spotify"
-  spawnOnce "setxkbmap -layout us,dk -option grp:rwin_toggle -option ctrl:nocaps"
+  spawnOnce "setxkbmap -layout us,dk -option grp:rwin_switch -option ctrl:nocaps"
   setWMName "LG3D"
 
 main :: IO ()
@@ -47,6 +47,7 @@ main = do
     ewmh $
     docks $
     modal modalModes $
+    -- withSB mempty $
     withSB statusBars $
     addDescrKeys ((myModMask .|. shiftMask, xK_slash), yad) myKeys
       def

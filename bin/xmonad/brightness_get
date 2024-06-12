@@ -1,5 +1,4 @@
-#!/usr/bin/env cached-nix-shell
-#! nix-shell -p brightnessctl bc -i bash
+#!/usr/bin/env bash
 
 BACKLIGHT_INTERFACE=intel_backlight
 current=$(cat /sys/class/backlight/$BACKLIGHT_INTERFACE/brightness)

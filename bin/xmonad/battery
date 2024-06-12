@@ -1,5 +1,4 @@
-#!/usr/bin/env cached-nix-shell
-#! nix-shell -p gawk ripgrep -i bash
+#!/usr/bin/env bash
 
 BAT_CAP=$(cat /sys/class/power_supply/BAT0/capacity)
 BAT_AC_ON=$(cat /sys/class/power_supply/AC/online)

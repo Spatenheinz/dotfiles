@@ -11,7 +11,7 @@ with lib.my;
         (removePrefix "/mnt"
           (findFirst pathExists (toString ../.) [
             "/mnt/etc/dotfiles"
-	        "/home/jacob/dotfiles"
+	          "/home/${config.user.name}/dotfiles"
             "/etc/dotfiles"
           ]));
       binDir     = mkOpt path "${config.dotfiles.dir}/bin";
@@ -33,7 +33,7 @@ with lib.my;
                then concatMapStringsSep ":" (x: toString x) v
                else (toString v));
       default = {};
-      description = "TODO";
+      description = "Construct Environment variable";
     };
   };
 

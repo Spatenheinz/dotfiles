@@ -42,8 +42,7 @@ myKeys c = concat
     mkNamedKeymap' = mkNamedKeymap c
     xmonadkeys = mkNamedKeymap'
                   [ ("M-S-r", addName "Recompile xmonad & restart server" $ spawn $ xmonadBin <> "xmonad_restart")
-                  , ("M-<Escape>", addName "Manage session" $ spawn $ rofiBin <> "session")
-                  -- , ("M-<Escape>", addName "Quit Xmonad" $ io exitSuccess)
+                  , ("M-<Escape>", addName "Manage session" $ spawn $ rofiBin <> "powermenu")
                   ]
     tps        = mkNamedKeymap'
                   [ ("M-<Return>",   addName "Terminal" $ spawn myTerminal)

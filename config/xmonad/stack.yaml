@@ -1,9 +1,10 @@
-resolver: lts-21.11
+resolver: lts-22.20
 
 packages:
 - .
 
-extra-deps: []
+extra-deps:
+- xmonad-contrib-0.18.0@sha256:aae129651391ec65e4c7cf4c23b280cc5e69f709d86668502426a41eebab9d3c,22370
 
 nix:
   enable: true
@@ -12,7 +13,7 @@ nix:
     - gcc
     - cairo
     - gtk3-x11
-    - pkgconfig
+    - pkg-config
     - xorg.libX11
     - xorg.libXft
     - xorg.libXScrnSaver

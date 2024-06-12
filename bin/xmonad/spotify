@@ -1,5 +1,4 @@
-#!/usr/bin/env cached-nix-shell
-#! nix-shell -p playerctl -i bash
+#!/usr/bin/env bash
 set -xe
 pipe=/tmp/spotify-pipe
 running=$(pidof .spotify-wrapped)

@@ -15,7 +15,9 @@ in {
       qemu
       virt-manager
       virtiofsd
+      libvirt
+      bridge-utils
     ];
-    user.extraGroups = [ "libvirtd" ];
+    user.extraGroups = [ "kvm" "libvirtd" ];
   };
 }

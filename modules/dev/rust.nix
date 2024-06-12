@@ -14,6 +14,8 @@ in {
     (mkIf cfg.enable {
       user.packages = with pkgs; [
         rustup
+        rust-analyzer
+        clippy
       ];
       env.PATH = [ "$(${pkgs.yarn}/bin/yarn global bin)" ];
       environment.shellAliases = {

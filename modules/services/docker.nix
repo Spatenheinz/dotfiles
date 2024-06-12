@@ -24,12 +24,21 @@ in {
 
     modules.shell.zsh.rcFiles = [ "${configDir}/docker/aliases.zsh" ];
 
+
+    networking.firewall.allowedTCPPorts = [
+      3301 # signoz requirement
+      4317 # allow jaeger gRPC
+      4318 # allow jaeger HTTP
+      8080
+      50051
+    ];
+
     virtualisation = {
       docker = {
         enable = true;
         autoPrune.enable = true;
         enableOnBoot = mkDefault false;
-        # listenOptions = [];
+        logDriver = "json-file";
       };
     };
   };

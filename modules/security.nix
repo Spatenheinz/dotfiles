@@ -56,7 +56,7 @@
 
   # Change me later!
   user.initialPassword = "nixos";
-  users.users.root.initialPassword = "nixos";
+  users.users.root.hashedPassword = "!";
 
   # So we don't have to do this later...
   security.acme.acceptTerms = true;

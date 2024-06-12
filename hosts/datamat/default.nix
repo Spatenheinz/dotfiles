@@ -38,6 +38,7 @@
       vm = {
         qemu.enable = true;
         vagrant.enable = true;
+        # virtualbox.enable = true;
       };
     };
     dev = {

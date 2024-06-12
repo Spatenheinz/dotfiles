@@ -52,7 +52,7 @@ myTabTheme = def
   , inactiveColor       = bg
   , inactiveTextColor   = fg
   , activeBorderColor   = orange
-  , activeColor         = bg
+  , activeColor         = yellow
   , activeTextColor     = fg
   , urgentBorderColor   = red
   , urgentTextColor     = red
@@ -72,7 +72,6 @@ type MyLayoutDeco s l a = XMonad.Layout.LayoutModifier.ModifiedLayout (Decoratio
 mySpacing :: Integer -> l a -> MyLayoutMod l a
 mySpacing i = spacingRaw True (Border i i i i) True (Border i i i i) True
 
---      a
 tabs :: (Eq a,
  LayoutModifier (Decoration TabbedDecoration DefaultShrinker) a,
  LayoutModifier (Sublayout (ModifiedLayout SmartBorder Simplest)) a,

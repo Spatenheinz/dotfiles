@@ -1,5 +1,4 @@
-#!/usr/bin/env cached-nix-shell
-#! nix-shell -p brightnessctl bc -i bash
+#!/usr/bin/env bash
 
 help () {
     echo "usage: $0 <amount> <up|down> <XProperty>"; exit
