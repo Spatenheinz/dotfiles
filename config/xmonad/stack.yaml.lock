@@ -3,10 +3,17 @@
 # For more information, please see the documentation at:
 #   https://docs.haskellstack.org/en/stable/lock_files
 
-packages: []
+packages:
+- completed:
+    hackage: xmonad-contrib-0.18.0@sha256:aae129651391ec65e4c7cf4c23b280cc5e69f709d86668502426a41eebab9d3c,22370
+    pantry-tree:
+      sha256: d2987f3843f1c5ca11bf63d22630679a34b7578f432a96f0dec97b98c4984e72
+      size: 23806
+  original:
+    hackage: xmonad-contrib-0.18.0@sha256:aae129651391ec65e4c7cf4c23b280cc5e69f709d86668502426a41eebab9d3c,22370
 snapshots:
 - completed:
-    sha256: 64d66303f927e87ffe6b8ccf736229bf608731e80d7afdf62bdd63c59f857740
-    size: 640037
-    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/21/11.yaml
-  original: lts-21.11
+    sha256: 4a0e5e187fbef423f9c60072bfb1dd56f2a01a07a2667eb1469bd79073cfceaf
+    size: 713340
+    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/22/20.yaml
+  original: lts-22.20
