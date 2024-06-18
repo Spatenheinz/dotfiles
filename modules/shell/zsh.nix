@@ -36,6 +36,8 @@ in {
       promptInit = "";
     };
 
+    services.lorri.enable = true;
+
     user.packages = with pkgs; [
       zsh
       nix-zsh-completions
@@ -46,6 +48,7 @@ in {
       jq
       ripgrep
       tldr
+      direnv
     ];
 
     env = {

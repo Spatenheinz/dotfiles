@@ -30,19 +30,19 @@
   )
 
 (custom-theme-set-faces
-   'user
-   '(org-block ((t (:inherit fixed-pitch))))
-   '(org-code ((t (:inherit (shadow fixed-pitch)))))
-   '(org-document-info ((t (:foreground "dark orange"))))
-   '(org-document-info-keyword ((t (:inherit (shadow fixed-pitch)))))
-   '(org-indent ((t (:inherit (org-hide fixed-pitch)))))
-   '(org-link ((t (:foreground "royal blue" :underline t))))
-   '(org-meta-line ((t (:inherit (font-lock-comment-face fixed-pitch)))))
-   '(org-property-value ((t (:inherit fixed-pitch))) t)
-   '(org-special-keyword ((t (:inherit (font-lock-comment-face fixed-pitch)))))
-   '(org-table ((t (:inherit fixed-pitch :foreground "#83a598"))))
-   '(org-tag ((t (:inherit (shadow fixed-pitch) :weight bold :height 0.8))))
-   '(org-verbatim ((t (:inherit (shadow fixed-pitch))))))
+ 'user
+ '(org-block ((t (:inherit fixed-pitch))))
+ '(org-code ((t (:inherit (shadow fixed-pitch)))))
+ '(org-document-info ((t (:foreground "dark orange"))))
+ '(org-document-info-keyword ((t (:inherit (shadow fixed-pitch)))))
+ '(org-indent ((t (:inherit (org-hide fixed-pitch)))))
+ '(org-link ((t (:foreground "royal blue" :underline t))))
+ '(org-meta-line ((t (:inherit (font-lock-comment-face fixed-pitch)))))
+ '(org-property-value ((t (:inherit fixed-pitch))) t)
+ '(org-special-keyword ((t (:inherit (font-lock-comment-face fixed-pitch)))))
+ '(org-table ((t (:inherit fixed-pitch :foreground "#83a598"))))
+ '(org-tag ((t (:inherit (shadow fixed-pitch) :weight bold :height 0.8))))
+ '(org-verbatim ((t (:inherit (shadow fixed-pitch))))))
 
 ;; (let* ((variable-tuple
 ;;           (cond ((x-list-fonts "Iosevka")         '(:font "Iosevka"))
@@ -79,6 +79,15 @@
 ;; (setq org-latex-with-hyperref nil)
 (setq latex-run-command "latexmk -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f %f")
 
+(defun src-decorate (&optional caption attributes)
+  "A wrap function for src blocks."
+  (concat
+   "ORG\n"
+   (when attributes
+     (concat (mapconcat 'identity attributes "\n") "\n"))
+   (when caption
+     (format "#+caption: %s" caption))))
+
 (nyan-mode 1)
 
 (add-to-list 'auto-mode-alist '("\\.pl\\'" . prolog-mode))
@@ -86,46 +95,49 @@
 
 
 (setq org-latex-pdf-process
-    '("latexmk -pdflatex='pdflatex -interaction nonstopmode' -pdf -f %f"))
+      '("latexmk -pdflatex='pdflatex -interaction nonstopmode' -pdf -f %f"))
 (setq org-latex-caption-above nil)
 (with-eval-after-load 'ox-latex
-(add-to-list 'org-latex-classes
-             '("org-plain-latex"
-               "\\documentclass{article}
+  (add-to-list 'org-latex-classes
+               '("org-plain-latex"
+                 "\\documentclass{article}
            [NO-DEFAULT-PACKAGES]
            [PACKAGES]
            [EXTRA]"
-               ("\\section{%s}" . "\\section*{%s}")
-               ("\\subsection{%s}" . "\\subsection*{%s}")
-               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-               ("\\paragraph{%s}" . "\\paragraph*{%s}")
-               ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
-(add-to-list 'org-latex-classes
-             '("report-noparts"
-              "\\documentclass{article}"
-              ("\\section{%s}" . "\\section*{%s}")
-              ("\\subsection{%s}" . "\\subsection*{%s}")
-              ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-              ("\\paragraph{%s}" . "\\paragraph*{%s}")
-              ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
-(add-to-list 'org-latex-packages-alist '("" "listings")))
-(setq org-latex-listings 'listings)
-(setq org-latex-listings-options '(("backgroundcolor=\\color{backcolour}")
-("commentstyle=\\color{codegreen}")
-("keywordstyle=\\color{magenta}")
-("numberstyle=\\tiny\\color{codegray}")
-("stringstyle=\\color{codepurple}")
-("basicstyle=\\ttfamily\\footnotesize")
-("breakatwhitespace=false")
-("breaklines=true")
-("captionpos=b")
-("keepspaces=true")
-("numbers=left")
-("numbersep=5pt")
-("showspaces=false")
-("showstringspaces=false")
-("showtabs=false")
-("tabsize=2")))
+                 ("\\section{%s}" . "\\section*{%s}")
+                 ("\\subsection{%s}" . "\\subsection*{%s}")
+                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+  (add-to-list 'org-latex-classes
+               '("report-noparts"
+                 "\\documentclass{article}"
+                 ("\\section{%s}" . "\\section*{%s}")
+                 ("\\subsection{%s}" . "\\subsection*{%s}")
+                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+  (add-to-list 'org-latex-packages-alist '("" "listings"))
+  (add-to-list 'org-latex-packages-alist '("" "minted"))
+  )
+(setq org-latex-src-block-backend 'minted)
+(setq org-latex-src-block-backend 'listings)
+(setq org-latex-listings-options '(("backgroundcolor=\\color{white}")
+                                   ("commentstyle=\\color{codegreen}")
+                                   ("keywordstyle=\\color{magenta}")
+                                   ("numberstyle=\\tiny\\color{codegray}")
+                                   ("stringstyle=\\color{codepurple}")
+                                   ("basicstyle=\\ttfamily\\footnotesize")
+                                   ("breakatwhitespace=false")
+                                   ("breaklines=true")
+                                   ("captionpos=b")
+                                   ("keepspaces=true")
+                                   ("numbers=left")
+                                   ("numbersep=5pt")
+                                   ("showspaces=false")
+                                   ("showstringspaces=false")
+                                   ("showtabs=false")
+                                   ("tabsize=2")))
 (setq org-latex-with-hyperref nil)
 
 ;; (setq org-structure-template-alist
@@ -133,11 +145,10 @@
 
 ;; this seems to add syntax-highlighting to jupyter-python and jupyter-typescript blocks
 (after! org-src
- (dolist (lang '(python typescript jupyter))
- (cl-pushnew (cons (format "jupyter-%s" lang) lang)
+  (dolist (lang '(python typescript jupyter))
+    (cl-pushnew (cons (format "jupyter-%s" lang) lang)
                 org-src-lang-modes :key #'car))
- )
-(setq lsp-lens-enable nil)
+  )
 
 ;; (after! pdf-tools
 ;;   (add-hook! 'pdf-view-mode-hook (pdf-view-midnight-minor-mode 1)))
@@ -151,15 +162,14 @@
 ;; Staffeli token thing
 (setq require-final-newline nil)
 
-(setq lsp-rust-analyzer-cargo-watch-command "clippy")
 ;; accept completion from copilot and fallback to company
-;; (use-package! copilot
-;;   :hook (prog-mode . copilot-mode)
-;;   :bind (:map copilot-completion-map
-;;               ("<tab>" . 'copilot-accept-completion)
-;;               ("TAB" . 'copilot-accept-completion)
-;;               ("C-TAB" . 'copilot-accept-completion-by-word)
-;;               ("C-<tab>" . 'copilot-accept-completion-by-word)))
+(use-package! copilot
+  :hook (prog-mode . copilot-mode)
+  :bind (:map copilot-completion-map
+              ("<tab>" . 'copilot-accept-completion)
+              ("TAB" . 'copilot-accept-completion)
+              ("C-TAB" . 'copilot-accept-completion-by-word)
+              ("C-<tab>" . 'copilot-accept-completion-by-word)))
 (require 'files)
 
 (defvar nix-shebang-interpreter-regexp "#!nix-shell -i \\([^ \t\n]+\\)"
@@ -188,3 +198,75 @@
 
 (set-frame-parameter nil 'alpha-background 80)
 (add-to-list 'default-frame-alist '(alpha-background . 80))
+;;;
+;;; Tree Sitter
+
+(use-package! tree-sitter
+  :hook (prog-mode . turn-on-tree-sitter-mode)
+  :hook (tree-sitter-after-on . tree-sitter-hl-mode)
+  :config
+  (require 'tree-sitter-langs)
+  ;; This makes every node a link to a section of code
+  (setq tree-sitter-debug-jump-buttons t
+        ;; and this highlights the entire sub tree in your code
+        tree-sitter-debug-highlight-jump-region t))
+
+(use-package! citeproc)
+
+(use-package! protobuf-mode
+  :mode "\\.proto\\'")
+
+;; we recommend using use-package to organize your init.el
+(use-package codeium
+  :init
+  ;; use globally
+  (add-to-list 'completion-at-point-functions #'codeium-completion-at-point)
+
+  (add-hook 'emacs-startup-hook
+            (lambda () (run-with-timer 0.1 nil #'codeium-init)))
+
+  ;; :defer t ;; lazy loading, if you want
+  :config
+  (setq use-dialog-box nil) ;; do not use popup boxes
+
+  ;; if you don't want to use customize to save the api-key
+  ;; (setq codeium/metadata/api_key "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx")
+
+  ;; get codeium status in the modeline
+  (setq codeium-mode-line-enable
+        (lambda (api) (not (memq api '(CancelRequest Heartbeat AcceptCompletion)))))
+  ;; (add-to-list 'mode-line-format '(:eval (car-safe codeium-mode-line)) t)
+  ;; alternatively for a more extensive mode-line
+  (add-to-list 'mode-line-format '(-50 "" codeium-mode-line) t)
+
+  ;; use M-x codeium-diagnose to see apis/fields that would be sent to the local language server
+  (setq codeium-api-enabled
+        (lambda (api)
+          (memq api '(GetCompletions Heartbeat CancelRequest GetAuthToken RegisterUser auth-redirect AcceptCompletion))))
+
+  ;; You can overwrite all the codeium configs!
+  ;; for example, we recommend limiting the string sent to codeium for better performance
+  (defun my-codeium/document/text ()
+    (buffer-substring-no-properties (max (- (point) 3000) (point-min)) (min (+ (point) 1000) (point-max))))
+  ;; if you change the text, you should also change the cursor_offset
+  ;; warning: this is measured by UTF-8 encoded bytes
+  (defun my-codeium/document/cursor_offset ()
+    (codeium-utf8-byte-length
+     (buffer-substring-no-properties (max (- (point) 3000) (point-min)) (point))))
+  (setq codeium/document/text 'my-codeium/document/text)
+  (setq codeium/document/cursor_offset 'my-codeium/document/cursor_offset))
+
+(use-package direnv
+  :config
+  (direnv-mode))
+
+
+(setq lsp-rust-analyzer-cargo-watch-command "clippy")
+(after! lsp-mode
+  (setq lsp-ui-doc-enable t)
+  (setq lsp-ui-doc-show-with-cursor t)
+  (setq lsp-ui-doc-header nil)
+  (setq lsp-lens-enable t)
+  (setq lsp-headerline-breadcrumb-enable t)
+  (setq lsp-signature-auto-activate t)
+  )
