@@ -13,7 +13,6 @@ in {
   config = mkIf cfg.enable {
     environment.systemPackages = with pkgs; [
       lightdm
-      dunst
       libnotify
       eww
       stack
@@ -33,39 +32,17 @@ in {
     ];
 
     services = {
-      picom.enable = true;
-      redshift.enable = true;
-
       displayManager = {
         defaultSession = "none+xmonad";
       };
 
       xserver = {
         enable = true;
-        displayManager = {
-          lightdm.enable = true;
-          lightdm.greeters.slick.enable = true;
-        };
         windowManager.xmonad = {
 	        enable = true;
 	        enableContribAndExtras = true;
 	      };
-        desktopManager.xfce.enable = true;
-
-        xkb = {
-          layout = "us,dk";
-	        options = "grp:rwin_switch,caps:escape";
-	        model = "pc105";
-        };
       };
-
-       libinput = {
-	        enable = true;
-	        touchpad = {
-	          naturalScrolling = true;
-            # tapping = true;
-	        };
-	      };
     };
 
     systemd.user.services."dunst" = {

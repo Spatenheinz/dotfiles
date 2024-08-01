@@ -30,6 +30,7 @@ in {
       xorg.xwininfo
       gtk4
       gtk3
+      dunst
       xpra
       # scripts
       xorg.xkill
@@ -54,8 +55,31 @@ in {
     };
 
     ## Apps/Services
-    services.xserver.displayManager = {
-      lightdm.greeters.mini.user = config.user.name;
+    services = {
+      picom.enable = true;
+      redshift.enable = true;
+      xserver = {
+        enable = true;
+        displayManager = {
+          lightdm.enable = true;
+          lightdm.greeters.slick.enable = true;
+        };
+        desktopManager.xfce.enable = true;
+
+        xkb = {
+          layout = "us,dk";
+	        options = "grp:rwin_switch,caps:escape";
+	        model = "pc105";
+        };
+      };
+
+       libinput = {
+	        enable = true;
+	        touchpad = {
+	          naturalScrolling = true;
+            # tapping = true;
+	        };
+	      };
     };
 
     services.picom = {
@@ -72,7 +96,7 @@ in {
         "100:class_g = 'krita'"
         "100:class_g = 'nitrogen'"
         "100:class_g = 'mpv'"
-        "100:class_g = 'Rofi'"
+        "80:class_g = 'Rofi'"
         "100:class_g = 'Peek'"
         "99:_NET_WM_STATE@:32a = '_NET_WM_STATE_FULLSCREEN'"
       ];
@@ -128,5 +152,17 @@ in {
     services.autorandr = {
       enable = true;
     };
+
+    systemd.user.services."dunst" = {
+      enable = true;
+      description = "Notification daemon";
+      wantedBy = [ "default.target" ];
+      serviceConfig = {
+        Type = "simple";
+        ExecStart = "${pkgs.dunst}/bin/dunst";
+        Restart = "always";
+      };
+    };
+
   };
 }

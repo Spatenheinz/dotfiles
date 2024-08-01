@@ -49,10 +49,9 @@ in {
 
     fonts.packages = [ pkgs.emacs-all-the-icons-fonts ];
 
-    # TODO
     system.userActivationScripts = mkIf cfg.doom.enable {
       installDoomEmacs = ''
-        cat ${config.system.build.setEnvironment} > ${configDir}/doom/set-environment
+        source ${config.system.build.setEnvironment}
         if [ ! -d "$XDG_CONFIG_HOME/emacs" ]; then
            git clone --depth=1 --single-branch "${repoUrl}" "$XDG_CONFIG_HOME/emacs"
         fi

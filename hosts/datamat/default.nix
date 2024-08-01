@@ -65,7 +65,6 @@
       # gnupg.enable  = true;
       tmux.enable   = true;
       zsh.enable    = true;
-      nushell.enable = true;
     };
     services = {
       # discourse.enable = true;
