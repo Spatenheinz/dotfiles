@@ -4,32 +4,12 @@ with lib;
 with lib.my;
 let cfg = config.modules.desktop;
 in {
-  config = mkIf config.services.xserver.enable {
-    assertions = [
-      {
-        assertion = (countAttrs (n: v: n == "enable" && value) cfg) < 2;
-        message = "Can't have more than one desktop environment enabled at a time";
-      }
-      {
-        assertion =
-          let srv = config.services;
-          in srv.xserver.enable ||
-             srv.sway.enable ||
-             !(anyAttrs
-               (n: v: isAttrs v &&
-                      anyAttrs (n: v: isAttrs v && v.enable))
-               cfg);
-        message = "Can't enable a desktop app without a desktop environment";
-      }
-    ];
 
+  options.modules.desktop = {
+    enable = mkBoolOpt true;
+  };
 
-    services.xkb = {
-      layout = "us,dk";
-      options = "grp:rwin_switch,grp:rctrl_switch,caps:escape";
-      model = "pc105";
-    };
-
+  config = mkIf cfg.enable {
     user.packages = with pkgs; [
       nitrogen
       xclip
@@ -37,6 +17,7 @@ in {
       xorg.xwininfo
       gtk4
       gtk3
+      dunst
       xpra
       # scripts
       xorg.xkill
@@ -48,7 +29,7 @@ in {
     fonts = {
       fontDir.enable = true;
       enableGhostscriptFonts = true;
-      fonts = with pkgs; [
+      packages = with pkgs; [
         ubuntu_font_family
         dejavu_fonts
         symbola
@@ -56,13 +37,36 @@ in {
         font-awesome
         font-awesome_5
         material-icons
+        texlivePackages.miama
         (nerdfonts.override { fonts = [ "FiraCode" "Hack" ]; })
       ];
     };
 
+
     ## Apps/Services
-    services.xserver.displayManager = {
-      lightdm.greeters.mini.user = config.user.name;
+    services = {
+      # picom.enable = true;
+      # redshift.enable = true;
+      displayManager.sddm.enable = true;
+      displayManager.sddm.wayland.enable = true;
+      xserver = {
+        enable = true;
+        # desktopManager.xfce.enable = true;
+
+        xkb = {
+          layout = "us,dk";
+          options = "grp:rwin_switch,grp:rctrl_switch,caps:escape";
+          model = "pc105";
+        };
+      };
+
+       libinput = {
+         enable = true;
+          touchpad = {
+            naturalScrolling = true;
+            # tapping = true;
+          };
+       };
     };
 
     services.picom = {
@@ -79,7 +83,7 @@ in {
         "100:class_g = 'krita'"
         "100:class_g = 'nitrogen'"
         "100:class_g = 'mpv'"
-        "100:class_g = 'Rofi'"
+        "80:class_g = 'Rofi'"
         "100:class_g = 'Peek'"
         "99:_NET_WM_STATE@:32a = '_NET_WM_STATE_FULLSCREEN'"
       ];
@@ -135,5 +139,16 @@ in {
     services.autorandr = {
       enable = true;
     };
+
+    systemd.user.services."dunst" = {
+      enable = true;
+      description = "Notification daemon";
+      wantedBy = [ "default.target" ];
+      serviceConfig.Restart = "always";
+      serviceConfig.RestartSec = 2;
+      serviceConfig.ExecStart = "${pkgs.dunst}/bin/dunst";
+    };
+
+
   };
 }

@@ -23,6 +23,7 @@ in {
     {
       user.packages = with pkgs; [
         unstable.firefox-bin
+        chromium
         (makeDesktopItem {
           name = "firefox-private";
           desktopName = "Firefox (Private)";
@@ -32,6 +33,8 @@ in {
           categories = [ "Network" ];
         })
       ];
+
+      networking.firewall.allowedUDPPortRanges = [ { from = 32768; to = 60999; } ];
 
       # Prevent auto-creation of ~/Desktop. The trailing slash is necessary; see
       # https://bugzilla.mozilla.org/show_bug.cgi?id=1082717

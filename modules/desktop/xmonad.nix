@@ -13,11 +13,13 @@ in {
   config = mkIf cfg.enable {
     environment.systemPackages = with pkgs; [
       lightdm
-      dunst
       libnotify
       eww
       stack
       haskellPackages.xmobar
+
+      stalonetray
+      networkmanagerapplet
 
       nethogs
       libinput
@@ -27,54 +29,23 @@ in {
       gawk
       ripgrep
       networkmanager
+      networkmanager-openconnect
+      openconnect
       brightnessctl
       bc
       playerctl
     ];
 
     services = {
-      picom.enable = true;
-      redshift.enable = true;
-
       displayManager = {
         defaultSession = "none+xmonad";
       };
 
-      xserver = {
-        enable = true;
-        displayManager = {
-          lightdm.enable = true;
-          lightdm.greeters.slick.enable = true;
-        };
-        windowManager.xmonad = {
+      xserver.enable = true;
+      xserver.windowManager.xmonad = {
 	        enable = true;
 	        enableContribAndExtras = true;
 	      };
-        desktopManager.xfce.enable = true;
-
-        xkb = {
-          layout = "us,dk";
-	        options = "grp:rwin_switch,caps:escape";
-	        model = "pc105";
-        };
-      };
-
-       libinput = {
-	        enable = true;
-	        touchpad = {
-	          naturalScrolling = true;
-            # tapping = true;
-	        };
-	      };
-    };
-
-    systemd.user.services."dunst" = {
-      enable = true;
-      description = "";
-      wantedBy = [ "default.target" ];
-      serviceConfig.Restart = "always";
-      serviceConfig.RestartSec = 2;
-      serviceConfig.ExecStart = "${pkgs.dunst}/bin/dunst";
     };
 
     # link recursively so other modules can link files in their folders

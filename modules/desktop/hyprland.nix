@@ -9,7 +9,6 @@ in {
     enable = mkBoolOpt false;
   };
 
-  # TODO: move nethogs somewhere appropriate
   config = mkIf cfg.enable {
 
     programs.hyprland.enable = true;
@@ -20,8 +19,8 @@ in {
       NIXOS_OZONE_WL = "1";
     };
 
-    hardware.graphics.enable = true;
-    # harware.nvidia.modesetting.enable = true;
+    hardware.nvidia.modesetting.enable = true;
+    hardware.opengl.enable = true;
 
     environment.systemPackages = with pkgs; [
       # wayland specific
@@ -39,8 +38,8 @@ in {
       libnotify
     ];
 
-    # xdg.portal.enable = true;
-    # xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+    xdg.portal.enable = true;
+    xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
 
   };
 }

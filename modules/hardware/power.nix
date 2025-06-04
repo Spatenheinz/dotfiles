@@ -17,7 +17,7 @@ in {
       systemd.sleep.extraConfig = ''
           HibernateDelaySec=60min
       '';
-      security.protectKernelImage = false;
+      security.protectKernelImage = mkForce false;
       # TODO: fix this mess
       powerManagement.resumeCommands = ''
          eww reload
