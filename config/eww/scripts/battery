@@ -1,0 +1,77 @@
+#!/usr/bin/env bash
+
+BAT_CAP=$(cat /sys/class/power_supply/BAT0/capacity)
+BAT_AC_ON=$(cat /sys/class/power_supply/AC/online)
+BAT_DRAW=$(cat /sys/class/power_supply/BAT0/power_now)
+BAT_NOW=$(cat /sys/class/power_supply/BAT0/energy_now)
+
+
+time_left() {
+    # energy_now is in µWh or µAh, power_now is in µW or µA
+    local seconds=$(("$BAT_NOW" * 3600 / "$BAT_DRAW"))
+    date -u -d @${seconds} +%T
+}
+
+notify() {
+    notify-send -r 55555 -u normal "Est remaining time left: $(time_left)"
+}
+
+# horrible
+if [ "$BAT_AC_ON" = "1" ]; then
+    if   [ "$BAT_CAP" -lt "10" ]; then
+        icon="󰢟"
+    elif [ "$BAT_CAP" -lt "20" ]; then
+        icon="󰢜"
+    elif [ "$BAT_CAP" -lt "30" ]; then
+        icon="󰂆"
+    elif [ "$BAT_CAP" -lt "40" ]; then
+        icon="󰂇"
+    elif [ "$BAT_CAP" -lt "50" ]; then
+        icon="󰂈"
+    elif [ "$BAT_CAP" -lt "60" ]; then
+        icon="󰢝"
+    elif [ "$BAT_CAP" -lt "70" ]; then
+        icon="󰂉"
+    elif [ "$BAT_CAP" -lt "80" ]; then
+        icon="󰢞"
+    elif [ "$BAT_CAP" -lt "90" ]; then
+        icon="󰂋"
+    elif [ "$BAT_CAP" -lt "100" ]; then
+        icon="󰂋"
+    else
+        icon="󰂅"
+    fi
+else
+    if [ "$BAT_CAP" -lt 100 ]; then
+       icon=""
+    elif [ "$BAT_CAP" -lt 100 ]; then
+       icon="󰂂"
+    elif [ "$BAT_CAP" -lt 90 ]; then
+       icon="󰂁"
+    elif [ "$BAT_CAP" -lt 80 ]; then
+       icon="󰂀"
+    elif [ "$BAT_CAP" -lt 70 ]; then
+       icon="󰁿"
+    elif [ "$BAT_CAP" -lt 60 ]; then
+       icon="󰁾"
+    elif [ "$BAT_CAP" -lt 50 ]; then
+       icon="󰁽"
+    elif [ "$BAT_CAP" -lt 40 ]; then
+       icon="󰁼"
+    elif [ "$BAT_CAP" -lt 30 ]; then
+       icon="󰁻"
+    elif [ "$BAT_CAP" -lt 20 ]; then
+       icon="󰁺"
+    else
+       icon="󱃍"
+    fi
+fi
+
+case "$1" in
+    status)
+        notify
+        ;;
+    *)
+        printf "%s %s%%" "$icon" "$BAT_CAP"
+        ;;
+esac

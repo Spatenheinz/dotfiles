@@ -1,0 +1,81 @@
+#!/usr/bin/env python3
+import sys
+import subprocess
+
+def strip_with(s, split):
+    return s.strip(" \t\r\n" + split)
+
+def parse_field(s):
+    return s.split("=", 1)[1].strip(" \t\r\n\"")
+
+def parse_availability(l):
+    s = l.split("availability")[1].strip(" \t\r\n)")
+    if s == "unknown": # assume analog and that it is available
+        return True
+    s = s.split(",")[-1].strip()
+    if s == "not available":
+        return False
+    return True # assume true
+
+def parse_pactl_status():
+    # node.nick
+    # object.id (called client.id in wpctl)
+    #Ports:
+    #     Type: <nickname> (type: <analog/HDMI/??>, priority: <prio>, availability group: <group>,pcm, <available/unavailable>)
+    #     Type: <nickname> (type: <analog/HDMI/??>, priority: <prio>, availability <unknown>)
+    output = str(subprocess.check_output(
+        "pactl list sinks | rg 'object.id|node.nick|node.name|availability'",
+        shell=True, encoding='utf-8')).splitlines()
+
+
+    sinks = {}
+    idx = 0
+    default = None
+    while idx < len(output):
+        name = output[idx].strip()
+        nickname = output[idx+1].strip()
+        object_id = output[idx+2].strip()
+        availability = output[idx+4].strip()
+        idx += 5
+        assert name.startswith("node.name"), name
+        assert nickname.startswith("node.nick"), nickname
+        assert object_id.startswith("object.id"), object_id
+
+        availability = parse_availability(availability)
+        object_id = int(parse_field(object_id))
+        sinks[object_id] = {
+            "name": parse_field(name),
+            "nickname": parse_field(nickname),
+            "available": availability,
+        }
+    return sinks
+
+def default_sink():
+    return str(subprocess.check_output(
+        "pactl get-default-sink",
+        shell=True, encoding='utf-8')).strip()
+
+def set_wpctl_sink(sink):
+    sink_map = parse_pactl_status()
+    res = sink_map.get(int(sink))
+    if res is None:
+        print(f"Could not find sink <{sink}> in map {sink_map}", file=sys.stderr)
+        exit(1)
+    output = str(subprocess.check_output(f"wpctl set-default {sink}",
+                                         shell=True, encoding='utf-8'))
+
+if len(sys.argv) >= 2:
+    match sys.argv[1]:
+        case "set":
+            set_wpctl_sink(sys.argv[2])
+        case _:
+            print("failed to match argument", file=sys.stderr)
+            exit(1)
+else:
+    sinks = parse_pactl_status()
+    default = default_sink()
+    for key, value in sinks.items():
+        if value['name'] == default:
+            print(f"{key};{value['nickname']};*")
+        elif value['available']:
+            print(f"{key};{value['nickname']}")

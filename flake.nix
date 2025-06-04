@@ -1,12 +1,3 @@
-# flake.nix --- the heart of my dotfiles
-#
-# Author:  Jacob Herbst <jacob@1362.dk>
-# URL:     https://github.com/spatenheinz/dotfiles
-# License: MIT
-#
-# Welcome to ground zero. Where the whole flake gets set up and all its modules
-# are loaded.
-
 {
   description = "A grossly incandescent nixos config.";
 
@@ -23,6 +14,14 @@
       # Extras
       emacs-overlay.url  = "github:nix-community/emacs-overlay";
       nixos-hardware.url = "github:nixos/nixos-hardware";
+
+      openconnect-sso = {
+      url = github:ThinkChaos/openconnect-sso/fix/nix-flake;
+      # inputs.flake-utils.follows = "utils";
+      inputs.nixpkgs.follows = "nixpkgs";
+      # inputs.systems.follows = "systems";
+      };
+
     };
 
   outputs = inputs @ { self, nixpkgs, nixpkgs-unstable, ... }:

@@ -1,0 +1,54 @@
+(include "audio.yuck")
+
+(defwidget sidestuff []
+  (box :class "sidestuff"
+       :orientation "h"
+       :space-evenly false
+       :halign "end"
+   (bright)
+   (audio)
+   (microphone)
+   (net)
+   (battery)
+   ))
+
+(defwidget bright []
+  (box :class "brightness"
+       :orientation "h"
+       :space-evenly false
+       :halign "end"
+       :spacing 10
+    (button
+        :class ""
+        :onclick "scripts/light inc"
+        :onrightclick "scripts/light dec"
+        brightness)))
+(defvar brightness "")
+
+(defwidget net []
+  (box :class "net"
+       :orientation "h"
+       :space-evenly false
+       :halign "end"
+       :spacing 10
+    (button
+        :class ""
+        :onclick "scripts/network ShowInfo"
+        network)
+))
+(defpoll network :interval "1s"
+  "scripts/network")
+
+(defwidget battery []
+(box :class "battery"
+        :orientation "h"
+        :space-evenly false
+        :halign "end"
+        :spacing 10
+    (button
+        :class ""
+        :onclick ""
+        battery)
+))
+(defpoll battery :interval "5s"
+  "scripts/battery")

@@ -22,7 +22,7 @@ with lib.my;
         nixPathInputs  = mapAttrsToList (n: v: "${n}=${v}") filteredInputs;
         registryInputs = mapAttrs (_: v: { flake = v; }) filteredInputs;
     in {
-      package = pkgs.nixFlakes;
+      package = pkgs.nixVersions.stable;
       extraOptions = "experimental-features = nix-command flakes";
       nixPath = nixPathInputs ++ [
         "nixpkgs-overlays=${config.dotfiles.dir}/overlays"
@@ -75,5 +75,7 @@ with lib.my;
     zip
     just
     tldr
+  # TODO
+  inputs.openconnect-sso.packages.${config.nixpkgs.localSystem.system}.default
   ];
 }

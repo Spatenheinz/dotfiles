@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+
+BACKLIGHT_INTERFACE=intel_backlight
+step="${2:-3}"
+
+percentage() {
+    current=$(cat /sys/class/backlight/$BACKLIGHT_INTERFACE/brightness)
+    max=$(cat /sys/class/backlight/$BACKLIGHT_INTERFACE/max_brightness)
+    echo "$current * 100 / $max" | bc -l | cut -d '.' -f 1
+}
+
+notify() {
+    notify-send -h int:value:"$1" "Screen Brightness"
+}
+
+change() {
+    brightnessctl s "$1" > /dev/null
+}
+
+print() {
+    printf "\Uf00df%4s%%" "$(percentage)"
+}
+
+case $1 in
+    inc)
+        change "+$step%"
+        ;;
+    dec)
+        change "$step%-"
+        ;;
+    *)
+        print
+        SKIP_NOTIFY=1
+        ;;
+esac
+if [ "${EWW_UPDATE:-0}" == "1" ]; then
+    eww update brightness="$(print)"
+fi
+if [ ! "${SKIP_NOTIFY:-0}" == "1" ]; then
+    notify "$(percentage)"
+fi

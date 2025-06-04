@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+activemonitor=$(hyprctl monitors -j | jq '.[] | select(.focused == true).id')
+
+
+case "$1" in
+    open)
+        eww open closer --id "closer$activemonitor" --arg "monitor=$activemonitor" --arg "window=$2"
+        eww open "$2" --id "${2}$activemonitor" --arg "monitor=$activemonitor"
+      ;;
+    close)
+        eww close "$2$activemonitor"
+        eww close "closer$activemonitor"
+      ;;
+    *)
+      exit 1
+      ;;
+esac

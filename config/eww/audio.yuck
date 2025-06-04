@@ -1,0 +1,63 @@
+(include "utils/revealers.yuck")
+
+; shows volume,
+; on hover a window opens below and we can modify sound
+(defwidget audio []
+  (box :class "audio" :orientation "h" :space-evenly false :halign "end" :spacing 0
+    (popup-on-hover :class ""
+                    :callback "scripts/popup open audio-popup-win"
+        (box :class "" :orientation "h" :space-evenly false :spacing 0
+            (box :class "audio-icon" :orientation "h" :space-evenly false
+                vol_icon)
+            volume (label :text "%"))
+        )))
+;(defwidget audio []
+;  (box :class "audio" :orientation "h" :space-evenly false :halign "end" :spacing 0
+;    (button :class ""
+;        ;:onmiddleclick "scripts/volume toggle"
+;        :onclick "scripts/popup open audio-popup-win"
+;        :onrightclick "SKIP_NOTIFY=1 scripts/volume toggle"
+;        (box :class "" :orientation "h" :space-evenly false :spacing 0
+;            (box :class "audio-icon" :orientation "h" :space-evenly false
+;                vol_icon)
+;            volume (label :text "%")))))
+(defvar vol_icon "")
+(defvar volume 0)
+
+(defwindow audio-popup-win [monitor]
+    :monitor monitor
+    :geometry (geometry :width "1%" :height "1%" :anchor "top right")
+    :stacking "fg"
+    :focusable false
+    (audio-popup))
+
+(deflisten audio_sinks :initial "WTF"
+   "scripts/eww_sinks")
+(defwidget audio-popup []
+(eventbox :class "" :onhoverlost "scripts/popup close audio-popup-win"
+ (box :orientation "v" :class "audio-control" :space-evenly false :active true
+    (box :class "volbar-box" :orientation "h" :space-evenly false :spacing 20
+        (scale :class "volbar" :min 0 :max 101 :value volume :orientation "h" :marks "10,20,40,60"
+            :onchange "SKIP_NOTIFY=1 EWW_UPDATE=1 scripts/volume set {}")
+        (box :class "box-volume"
+            volume)
+        (button :class "audio-icon"
+            :onclick "SKIP_NOTIFY=1 EWW_UPDATE=1 scripts/volume toggle"
+                vol_icon))
+     (literal :content audio_sinks)
+    )))
+
+
+; very simple show microphone status. Maybe in the future more
+; management could be nice
+(defwidget microphone []
+  (box :class "microphone"
+       :orientation "h"
+       :space-evenly false
+       :halign "end"
+       :spacing 10
+    (button
+        :class ""
+        :onclick "SKIP_NOTIFY=1 EWW_UPDATE=1 scripts/microphone toggle"
+        microphone_icon)))
+(defvar microphone_icon "")

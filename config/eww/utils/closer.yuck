@@ -1,0 +1,9 @@
+(defwidget close [window]
+    (eventbox :onclick "scripts/popup close ${window}"))
+
+(defwindow closer [window monitor]
+    :monitor monitor
+    :geometry (geometry :width "100%" :height "100%")
+    :stacking "fg"
+    :focusable false
+    (close :window window))

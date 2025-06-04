@@ -17,8 +17,8 @@ import qualified XMonad.StackSet as W
 archwiki, reddit :: S.SearchEngine
 archwiki = S.searchEngine "archwiki" "https://wiki.archlinux.org/index.php?search="
 reddit = S.searchEngine "reddit" "https://www.reddit.com/search/?q="
-nixpkgs = S.searchEngine "nixpkgs" "https://search.nixos.org/packages?channel=24.05&sort=relevance&type=packages&query="
-nixOptions = S.searchEngine "nixOptions" "https://search.nixos.org/options?channel=24.05&sort=relevance&type=packages&query="
+nixpkgs = S.searchEngine "nixpkgs" "https://search.nixos.org/packages?sort=relevance&type=packages&query="
+nixOptions = S.searchEngine "nixOptions" "https://search.nixos.org/options?&sort=relevance&type=packages&query="
 rust = S.searchEngine "rust" "https://doc.rust-lang.org/std/?search="
 
 searchList :: [(String, S.SearchEngine)]

@@ -1,0 +1,42 @@
+(include "sidestuff.yuck")
+
+(defwindow bar [monitor]
+  :monitor monitor
+  :windowtype "dock"
+  :geometry (geometry :x "0%"
+                      :y "10px"
+                      :width "100%"
+                      :height "20px"
+                      :anchor "top center")
+  :stacking "bt"
+  :exclusive true
+  :focusable false
+  (bar :monitor monitor))
+
+(defwidget bar [monitor]
+(box :class "bar"
+  (centerbox :orientation "h"
+    (workspaces :monitor monitor)
+    (clock)
+    (sidestuff))))
+
+(deflisten workspace0
+  "scripts/workspace.sh 0")
+
+(deflisten workspace1
+  "scripts/workspace.sh 1")
+
+(defwidget workspaces [monitor]
+  (literal :content {monitor == 0 ? workspace0 : workspace1}))
+
+(defwidget clock []
+  (box :class "clock"
+       :orientation "h"
+       :space-evenly false
+       :halign "center"
+    (button
+        :class ""
+        :onclick "scripts/calendar.sh show"
+        date-time)))
+(defpoll date-time :interval "1s"
+  "scripts/date-time")

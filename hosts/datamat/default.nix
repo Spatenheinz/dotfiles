@@ -10,6 +10,7 @@
   ## Modules
   modules = {
     desktop = {
+      hyprland.enable = true;
       xmonad.enable = true;
       apps = {
         rofi.enable = true;
@@ -41,7 +42,7 @@
         # virtualbox.enable = true;
       };
     };
-    dev = {
+  dev = {
       rust.enable = true;
       python.enable = true;
       cc.enable = true;
@@ -51,7 +52,7 @@
     };
     editors = {
       default = "nvim";
-      emacs = { 
+      emacs = {
         enable = true;
         doom.enable = true;
       };
@@ -76,6 +77,8 @@
     hardware = {
       audio.enable = true;
       bluetooth.enable = true;
+      battery.enable = true;
+      power.enable = true;
     };
   };
 
@@ -88,4 +91,15 @@
   networking.networkmanager.enable = true;
 
   time.timeZone = "Europe/Copenhagen";
+
+  # TMP
+  services.udev.extraRules = ''
+    # CMSIS-DAP for microbit
+
+    ACTION!="add|change", GOTO="microbit_rules_end"
+
+    SUBSYSTEM=="usb", ATTR{idVendor}=="0d28", ATTR{idProduct}=="0204", TAG+="uaccess"
+
+    LABEL="microbit_rules_end"
+   '';
 }

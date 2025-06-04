@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+
+socket="$XDG_RUNTIME_DIR/eww/.audio_socket2.sock"
+on_click() {
+  echo "\"scripts/audio_sink_ctl set ${id}; scripts/eww-socket-trigger ${socket}\""
+}
+
+sinks() {
+echo -n "(box :class \"audio-list\" "
+# vertical split
+echo -n ":orientation \"v\" "
+echo -n ":spacing 5"
+readarray -t arr < <("$(dirname "${BASH_SOURCE[0]}")/audio_sink_ctl")
+for line in "${arr[@]}"; do
+   id="$(echo "$line" | cut -d';' -f1)"
+   name="$(echo "$line" | cut -d';' -f2)"
+   default="$(echo "$line" | cut -d';' -f3)"
+   echo -n "(box :class \"\" "
+   echo -n "(button :onclick $(on_click) "
+   if [ -n "$default" ]; then
+        echo -n ":class \"audio-item-default\" "
+   else
+        echo -n ":class \"audio-item\" "
+   fi
+   echo -n "\"$name\" "
+   echo -n " ))"
+done
+echo " )"
+}
+
+sinks
+mkdir -p "$(dirname "$socket")"
+socat UNIX-LISTEN:$socket,fork - | while read -r; do
+    sinks
+done

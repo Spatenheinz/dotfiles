@@ -1,0 +1,97 @@
+#!/usr/bin/env bash
+
+get_volume() {
+    local deci pct
+    deci="$(wpctl get-volume @DEFAULT_AUDIO_SINK@ | cut -d' ' -f2)"
+    pct="$(echo "$deci * 100" | bc -l)"
+    echo "${pct%.*}"
+}
+muted() {
+    wpctl get-volume @DEFAULT_AUDIO_SINK@ | cut -d' ' -f3
+}
+
+# Arbitrary but unique message id
+msgId="991049"
+
+mute() {
+    message="Muted"
+}
+zero() {
+    icon_name="notification-audio-volume-off.svg";
+}
+low() {
+    icon_name="/usr/share/icons/gruvbox-dark-icons-gtk/48x48/status/notification-audio-volume-low.svg";
+}
+med() {
+    icon_name="/usr/share/icons/gruvbox-dark-icons-gtk/48x48/status/notification-audio-volume-medium.svg";
+}
+high() {
+    icon_name="/usr/share/icons/gruvbox-dark-icons-gtk/48x48/status/notification-audio-volume-high.svg";
+}
+
+notify() {
+    volume="$(get_volume)"
+    [[ "$volume" -ge "70" ]] && high
+    [[ "$volume" -lt "70" ]] && med
+    [[ "$volume" -le "30" ]] && low
+    [[ "$volume" == "0" ]] && zero
+    [[ -n "$(mute)" ]] && zero && mute
+    [[ -z "$message" ]] && message="Volume: ${volume}%"
+    dunstify -a "changeVolume" -u low -i "$icon_name" -r "$msgId" \
+        -h int:value:"$volume" "${message}"
+}
+
+icon() {
+  volume="$(get_volume)"
+
+  if [[ -n "$(muted)" ]]; then
+    icon=""
+  elif [[ $volume -ge "50" ]]; then
+    icon=""
+  elif [[ $volume -lt "50" ]]; then
+    icon=""
+  elif [[ $volume -lt "15" ]]; then
+    icon=""
+  elif [[ $volume -eq "0" ]]; then
+    icon=""
+  fi
+  printf "%s" "$icon"
+}
+
+volume() {
+  volume="$(get_volume)"
+  printf "%s" "${volume}"
+}
+
+step="${2:-3}"
+
+case $1 in
+    inc)
+        wpctl set-volume @DEFAULT_AUDIO_SINK@ "$step"%+
+        ;;
+    dec)
+        wpctl set-volume @DEFAULT_AUDIO_SINK@ "$step"%-
+        ;;
+    toggle)
+        wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+        ;;
+    set)
+        wpctl set-volume @DEFAULT_AUDIO_SINK@ "$step"%
+        SKIP_NOTIFY=1
+        ;;
+    icon)
+        icon
+        SKIP_NOTIFY=1
+        ;;
+    *)
+        volume
+        SKIP_NOTIFY=1
+        ;;
+esac
+if [ "${EWW_UPDATE:-0}" == "1" ]; then
+   eww update vol_icon="$(icon)"
+   eww update volume="$(volume)"
+fi
+if [ ! "${SKIP_NOTIFY:-0}" == "1" ]; then
+  notify
+fi

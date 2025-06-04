@@ -1,0 +1,166 @@
+* {
+    all: unset; //Unsets everything so you can style everything from scratch
+  }
+  
+  $background: #1A1B26;
+  $background2: #1A1B20;
+  $foreground: #A9B1D6;
+  
+  $black: #24283B;
+  $gray: #565F89;
+  $red: #F7768E;
+  $green: #73DACA;
+  $yellow: #E0AF68;
+  $blue: #7AA2F7;
+  $magenta: #BB9AF7;
+  $cyan: #7DCFFF;
+  $white: $foreground;
+  
+  .bar {
+    background-color: $background;
+    font-size: 13px;
+    color: #ffd5cd;
+    // font-family: GoMono Nerd Font;
+    font-family: Iosevka;
+    box-shadow: 2px 4px 2px 1px $background;
+    margin: 2px 10px 4px 10px;
+    border-radius: 5px;
+  }
+  
+  .base-module {
+    padding-right: 20px;
+    color: #ffd5cd;
+  }
+  
+  // Styles on classes (see eww.yuck for more information)
+  
+  .sidestuff {
+    color: #ffd5cd;
+  }
+
+  .tmp {
+    background-color: #FF00FF;
+    min-height: 5px;
+    min-width: 200px;
+  }
+
+  .audio-list {
+    margin-top: 30px;
+    padding: 0;
+  }
+
+  audio-item-generic {
+    padding: 11px 20px 11px 11px;
+    min-height: 20px;
+    min-width: 200px;
+    color: $white;
+    background-color: $background;
+    border-color: $black;
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 10px;
+  }
+
+  audio-hover {
+    color: $red;
+    border-color: $red;
+  }
+
+  .audio-item {
+    @extend audio-item-generic;
+  }
+
+  .audio-item:hover {
+    @extend audio-hover;
+  }
+
+  .audio-item-default {
+    @extend audio-item-generic;
+    color: $cyan;
+  }
+  .audio-item-default:hover {
+    @extend audio-item-generic;
+    @extend audio-hover;
+  }
+  
+  .closer {
+    opacity: 0.0
+  }
+  
+  .audio {
+    padding-right: 15px;
+    color: #ffd5cd;
+  }
+  .audio-icon {
+    color: #ffd5cd;
+    padding-right: 5px;
+    min-width: 30px;
+    font-family: "Font Awesome\ 5 Free";
+  }
+
+  .box-volume {
+    min-width: 30px;
+  }
+  
+  .audio-control {
+    @extend .bar;
+    margin: 2px 10px 4px 10px;
+    padding: 20px;
+    border-radius: 10px;
+  }
+  scale trough {
+    all: unset;
+    background-color: $black;
+    border-radius: 5px;
+    min-height: 7px;
+    min-width: 200px;
+    margin: 1rem 0 1rem 0;
+  }
+  .volbar trough highlight {
+    background-color: $red;
+    border-radius: 5px;
+  }
+  
+  .microphone {
+    @extend .base-module;
+  }
+  
+  .brightness {
+    @extend .base-module
+  }
+  
+  .net {
+    @extend .base-module
+  }
+
+  .clock {
+    color: #ffd5cd;
+  }
+  
+  .battery {
+    color: #ffd5cd;
+    padding-right: 10px;
+  }
+  
+  .w {
+    padding: 5px 5px 5px 5px;
+  }
+  
+  .w-focused {
+    @extend .w;
+    color: #ffffff;
+    box-shadow: inset 0 -3px #dddddd;
+  }
+  
+  .w-occupied {
+    @extend .w;
+    color: #eb4034;
+  }
+  
+  .workspace {
+  padding: 0 10px;
+  }
+  
+  .workspace button:hover {
+    box-shadow: inset 0 -3px #ffffff;
+  }

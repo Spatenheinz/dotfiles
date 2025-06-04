@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+
+threshold=8
+critical_threshold=4
+timeout=60
+shutdown_cmd='systemctl hibernate'
+
+BAT_CAP=$(cat /sys/class/power_supply/BAT0/capacity)
+BAT_AC_ON=$(cat /sys/class/power_supply/AC/online)
+
+if [ "$BAT_AC_ON" = "1" ]; then
+    exit 0
+fi
+
+shutdown() {
+    sleep $timeout
+
+    if [ "$BAT_AC_ON" = "1" ]; then
+        exit 0
+    fi
+    $shutdown_cmd
+}
+
+if [ "$BAT_CAP" -gt $critical_threshold ] && [ "$BAT_CAP" -lt $low_threshold ]; then
+  notify-send "Battery level is low: $BAT_CAP%"
+fi
+
+if [ "$BAT_CAP" -lt $critical_threshold ]; then
+
+  notify-send -u critical -t 20000 "Battery level is low: $level%" \
+    'The system is going to shut down in 1 minute.'
+
+  shutdown &
+  shutdown_pid=$!
+
+  trap 'kill $shutdown_pid' 1
+
+fi

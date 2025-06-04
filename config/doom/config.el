@@ -2,7 +2,9 @@
 (setq user-full-name "Jacob Herbst"
       user-mail-address "jacob@1362.dk")
 
-(setq doom-font (font-spec :family "Iosevka" :size 14 :weight 'semi-light)
+(setq
+      doom-font (font-spec :family "Iosevka" :size 14)
+ ;; doom-font (font-spec :family "Iosevka" :size 14 :weight 'semi-light)
       doom-variable-pitch-font (font-spec :family "Iosevka" :size 13)
       doom-big-font (font-spec :family "Iosevka" :size 24))
 (setq doom-theme 'doom-gruvbox)
@@ -163,14 +165,14 @@
 (setq require-final-newline nil)
 
 ;; accept completion from copilot and fallback to company
-(use-package! copilot
-  :hook (prog-mode . copilot-mode)
-  :bind (:map copilot-completion-map
-              ("<tab>" . 'copilot-accept-completion)
-              ("TAB" . 'copilot-accept-completion)
-              ("C-TAB" . 'copilot-accept-completion-by-word)
-              ("C-<tab>" . 'copilot-accept-completion-by-word)))
-(require 'files)
+;; (use-package! copilot
+;;   :hook (prog-mode . copilot-mode)
+;;   :bind (:map copilot-completion-map
+;;               ("<tab>" . 'copilot-accept-completion)
+;;               ("TAB" . 'copilot-accept-completion)
+;;               ("C-TAB" . 'copilot-accept-completion-by-word)
+;;               ("C-<tab>" . 'copilot-accept-completion-by-word)))
+;; (require 'files)
 
 (defvar nix-shebang-interpreter-regexp "#!nix-shell -i \\([^ \t\n]+\\)"
   "Regexp for nix-shell -i header.")
@@ -211,7 +213,7 @@
         ;; and this highlights the entire sub tree in your code
         tree-sitter-debug-highlight-jump-region t))
 
-(use-package! citeproc)
+;; (use-package! citeproc)
 
 (use-package! protobuf-mode
   :mode "\\.proto\\'")
@@ -256,11 +258,6 @@
   (setq codeium/document/text 'my-codeium/document/text)
   (setq codeium/document/cursor_offset 'my-codeium/document/cursor_offset))
 
-(use-package direnv
-  :config
-  (direnv-mode))
-
-
 (setq lsp-rust-analyzer-cargo-watch-command "clippy")
 (after! lsp-mode
   (setq lsp-ui-doc-enable t)
@@ -270,3 +267,10 @@
   (setq lsp-headerline-breadcrumb-enable t)
   (setq lsp-signature-auto-activate t)
   )
+
+(use-package! gleam-ts-mode
+   :mode (rx ".gleam" eos))
+
+;; (require 'app-launcher)
+
+(require 'yuck-mode)

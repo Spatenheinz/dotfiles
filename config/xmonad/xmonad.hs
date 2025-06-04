@@ -30,6 +30,7 @@ myManageHook =
     , className =? "error"           --> doFloat
     , className =? "Yad"             --> doCenterFloat
     , className =? "rofi"            --> doCenterFloat
+    , title =? "emacs-run-launcher" --> doCenterFloat
     , (className =? "firefox" <&&> resource =? "Dialog") --> doFloat
     , isFullscreen --> doFullFloat
     , className =? "Modal-exe" --> doCenterFloat
@@ -38,7 +39,8 @@ myManageHook =
 myStartupHook :: X ()
 myStartupHook = do
   spawnOnce $ xmonadBin <> "spotify"
-  spawnOnce "setxkbmap -layout us,dk -option grp:rwin_switch -option ctrl:nocaps"
+  -- spawnOnce "setxkbmap -layout us,dk -option grp:rwin_switch -option ctrl:nocaps"
+  spawnOnce "stalonetray"
   setWMName "LG3D"
 
 main :: IO ()

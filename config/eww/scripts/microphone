@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+
+muted() {
+    wpctl get-volume @DEFAULT_AUDIO_SOURCE@ | cut -d' ' -f3
+}
+
+notify() {
+    if [[ -n "$(muted)" ]]; then
+       message="Muted"
+    else
+       message="Unmuted"
+    fi
+    dunstify -a "changeVolume" -u low \
+        "${message}"
+}
+
+icon() {
+  if [[ -n "$(muted)" ]]; then
+      icon=""
+  else
+      icon=""
+  fi
+  printf "%s" "$icon"
+}
+
+case $1 in
+    toggle)
+        wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
+        ;;
+    *)
+        icon
+        SKIP_NOTIFY=1
+        ;;
+esac
+if [ "${EWW_UPDATE:-0}" == "1" ]; then
+   eww update microphone_icon="$(icon)"
+fi
+if [ ! "${SKIP_NOTIFY:-0}" == "1" ]; then
+  notify
+fi
